@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit slopeHit;
     private bool grounded;
     private bool doubleJump;
+
+    [SerializeField] private TetrisConsole tetrisConsole;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +83,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space) | jumpTime > buttonTime)
         {
             jumping = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            float dist = Vector3.Distance(transform.position, tetrisConsole.transform.position);
+            if (dist < 1.4f) { Debug.Log("Open Console");  } else { Debug.Log("You are too far from the console"); }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
