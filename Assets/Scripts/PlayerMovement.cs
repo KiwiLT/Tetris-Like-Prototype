@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private bool jumping;
     private float jumpTime;
     private float buttonTime = 0.3f;
-    public bool freeze;
+    private bool freeze;
+    private bool inConsole;
     public bool activeGrapple;
     public float groundDrag;
 
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private bool doubleJump;
 
     [SerializeField] private TetrisConsole tetrisConsole;
+    [SerializeField] private Cinemachine.CinemachineVirtualCameraBase tetriscam;
+    [SerializeField] private Cinemachine.CinemachineVirtualCameraBase playercam;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,10 +43,7 @@ public class PlayerMovement : MonoBehaviour
         orientation = cam.transform;
         moveDirection = orientation.forward * Input.GetAxis("Vertical") + orientation.right * Input.GetAxis("Horizontal");
         if (activeGrapple) return;
-        //if (freeze)
-        //{
-        //    rb.velocity = Vector3.zero;
-        //}
+        if (freeze){ rb.velocity = Vector3.zero; return; }
         if (grounded)
         {
             Vector3 newVelocity = cam.transform.forward * Input.GetAxis("Vertical") * speed;
@@ -87,7 +87,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             float dist = Vector3.Distance(transform.position, tetrisConsole.transform.position);
-            if (dist < 1.4f) { Debug.Log("Open Console");  } else { Debug.Log("You are too far from the console"); }
+            if (dist < 1.4f) {
+                Debug.Log("Open Console");
+                if (!inConsole)
+                {
+                    EnterConsole();
+                } else
+                {
+                    ExitConsole();
+                }
+                
+            } else
+            { Debug.Log("You are too far from the console"); }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -136,5 +147,21 @@ public class PlayerMovement : MonoBehaviour
             + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
 
         return velocityXZ + velocityY;
+    }
+
+    public void EnterConsole()
+    {
+        freeze = true;
+        inConsole = true;
+        tetriscam.enabled = true;
+        playercam.enabled = false;
+    }
+
+    public void ExitConsole()
+    {
+        freeze = false;
+        inConsole = false;
+        playercam.enabled = true;
+        tetriscam.enabled = false;
     }
 }
