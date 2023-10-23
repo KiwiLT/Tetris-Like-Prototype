@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TetrisConsole : MonoBehaviour
 {
+    [SerializeField] public int consoleId;
 
     // Start is called before the first frame update
     void Start()

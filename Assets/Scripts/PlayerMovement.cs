@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -29,8 +30,10 @@ public class PlayerMovement : MonoBehaviour
     private bool doubleJump;
 
     [SerializeField] private TetrisConsole tetrisConsole;
-    [SerializeField] private Cinemachine.CinemachineVirtualCameraBase tetriscam;
-    [SerializeField] private Cinemachine.CinemachineVirtualCameraBase playercam;
+    [SerializeField] private CinemachineVirtualCamera tetriscam;
+    [SerializeField] private CinemachineVirtualCamera playercam;
+    [SerializeField] private CinemachineVirtualCamera[] allCams;
+    [SerializeField] private TetrisConsole[] allTetrisConsole;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
             doubleJump = true;
         }
 
-
         OnSlope();
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -76,7 +78,6 @@ public class PlayerMovement : MonoBehaviour
                 jumping = true;
                 jumpTime = 0;
             }
-
         }
         if (jumping)
         {
@@ -89,19 +90,37 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            float dist = Vector3.Distance(transform.position, tetrisConsole.transform.position);
-            if (dist < 1.4f) {
-                Debug.Log("Open Console");
-                if (!inConsole)
+            int entered = 0;
+            foreach (TetrisConsole tconsole in allTetrisConsole)
+            {
+                float dist = Vector3.Distance(transform.position, tconsole.transform.position);
+                if (dist < 1.4f)
                 {
-                    EnterConsole();
-                } else
-                {
-                    ExitConsole();
+                    if (!inConsole)
+                    {
+                        EnterConsole(tconsole);
+                        entered = 1;
+                    }
+                    else
+                    {
+                        ExitConsole();
+                        entered = 2;
+                    }
                 }
-                
-            } else
-            { Debug.Log("You are too far from the console"); }
+            }
+            switch (entered)
+            {
+                case 1:
+                    Debug.Log("Enter Console");
+                    break;
+                case 2:
+                    Debug.Log("Exit Console");
+                    break;
+                default:
+                    Debug.Log("You are too far from the console.");
+                    break;
+            }
+
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -157,19 +176,25 @@ public class PlayerMovement : MonoBehaviour
         return velocityXZ + velocityY;
     }
 
-    public void EnterConsole()
+    public void EnterConsole(TetrisConsole tconsole)
     {
         freeze = true;
         inConsole = true;
-        tetriscam.enabled = true;
-        playercam.enabled = false;
+        SwitchToCamera(allCams[tconsole.consoleId + 1]);
     }
 
     public void ExitConsole()
     {
         freeze = false;
         inConsole = false;
-        playercam.enabled = true;
-        tetriscam.enabled = false;
+        SwitchToCamera(allCams[0]);
+    }
+
+    public void SwitchToCamera(CinemachineVirtualCamera targetCamera)
+    {
+        foreach (CinemachineVirtualCamera camera in allCams)
+        {
+            camera.enabled = camera == targetCamera;
+        }
     }
 }
