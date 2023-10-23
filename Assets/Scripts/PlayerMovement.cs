@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public bool freeze;
     public bool activeGrapple;
     public float groundDrag;
+    public float distToGround = 1f;
 
     public LayerMask whatisGround;
 
@@ -55,11 +56,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, 0.5f + 0.1f, whatisGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down, distToGround + 0.1f, whatisGround);
         if (grounded)
         {
             doubleJump = true;
         }
+
+
         OnSlope();
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -87,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             float dist = Vector3.Distance(transform.position, tetrisConsole.transform.position);
-            if (dist < 1.4f) { Debug.Log("Open Console");  } else { Debug.Log("You are too far from the console"); }
+            if (dist < 1.4f) { Debug.Log("Open Console"); } else { Debug.Log("You are too far from the console"); }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -95,6 +98,11 @@ public class PlayerMovement : MonoBehaviour
             Ray downRay = new Ray(transform.position, Vector3.down);
             Physics.Raycast(downRay, out hit);
             Debug.Log(hit.distance);
+            Debug.Log("Is grounded: " + grounded);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            grounded = true;
         }
     }
 
@@ -117,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, cam.transform.position.y * 0.5f + 0.3f))
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, cam.transform.position.y * distToGround + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
             return angle < maxSlopeAngle && angle != 0;
