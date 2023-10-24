@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private bool grounded;
     private bool doubleJump;
 
-    [SerializeField] private TetrisConsole tetrisConsole;
+    [SerializeField] private TetrisConsole activeConsole;
     [SerializeField] private CinemachineVirtualCamera tetriscam;
     [SerializeField] private CinemachineVirtualCamera playercam;
     [SerializeField] private CinemachineVirtualCamera[] allCams;
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         {
             jumping = false;
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             int entered = 0;
             foreach (TetrisConsole tconsole in allTetrisConsole)
@@ -99,11 +99,12 @@ public class PlayerMovement : MonoBehaviour
                     if (!inConsole)
                     {
                         EnterConsole(tconsole);
+                        activeConsole = tconsole;
                         entered = 1;
                     }
                     else
                     {
-                        ExitConsole();
+                        ExitConsole(activeConsole);
                         entered = 2;
                     }
                 }
@@ -181,10 +182,12 @@ public class PlayerMovement : MonoBehaviour
         freeze = true;
         inConsole = true;
         SwitchToCamera(allCams[tconsole.consoleId + 1]);
+        tconsole.activate();
     }
 
-    public void ExitConsole()
+    public void ExitConsole(TetrisConsole tconsole)
     {
+        tconsole.deactivate();
         freeze = false;
         inConsole = false;
         SwitchToCamera(allCams[0]);
