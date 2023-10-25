@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     private bool jumping;
-    private bool dash;
     private float jumpTime;
     private float buttonTime = 0.3f;
     private bool freeze;
@@ -29,13 +28,10 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit slopeHit;
     private bool grounded;
     private bool doubleJump;
-    private Vector3 newVelocity;
 
-    [SerializeField] private TetrisConsole activeConsole;
-    [SerializeField] private CinemachineVirtualCamera tetriscam;
-    [SerializeField] private CinemachineVirtualCamera playercam;
-    [SerializeField] private CinemachineVirtualCamera[] allCams;
     [SerializeField] private TetrisConsole[] allTetrisConsole;
+    [SerializeField] private CameraHandler cams;
+    private TetrisConsole activeConsole;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,10 +45,10 @@ public class PlayerMovement : MonoBehaviour
         orientation = cam.transform;
         moveDirection = orientation.forward * Input.GetAxis("Vertical") + orientation.right * Input.GetAxis("Horizontal");
         if (activeGrapple) return;
-        if (freeze) { rb.velocity = Vector3.zero; return; }
+        if (freeze){ rb.velocity = Vector3.zero; return; }
         if (grounded)
         {
-            newVelocity = cam.transform.forward * Input.GetAxis("Vertical") * speed;
+            Vector3 newVelocity = cam.transform.forward * Input.GetAxis("Vertical") * speed;
             newVelocity += cam.transform.right * Input.GetAxis("Horizontal") * speed;
             newVelocity.y = rb.velocity.y;
             rb.velocity = newVelocity;
@@ -81,11 +77,6 @@ public class PlayerMovement : MonoBehaviour
                 jumpTime = 0;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-
-        }
         if (jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
@@ -111,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
-                        ExitConsole(activeConsole);
+                        ExitConsole();
                         entered = 2;
                     }
                 }
@@ -135,26 +126,19 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             Ray downRay = new Ray(transform.position, Vector3.down);
             Physics.Raycast(downRay, out hit);
-
             Debug.Log(hit.distance);
             Debug.Log("Is grounded: " + grounded);
-            /*
-            Debug.Log(rb.velocity + ": rb.velocity");
-            Debug.Log(Input.GetAxis("Vertical") + ": Vertical Input");
-            Debug.Log("Correct velocity: " + cam.transform.forward * Input.GetAxis("Vertical") * speed);
-            Debug.Log("NewVelocity: " + newVelocity);
-            */
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             grounded = true;
-            activeGrapple = false;
         }
     }
 
 
     public void jumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
+        activeGrapple = true;
         velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         Invoke(nameof(SetVelocity), 0.1f);
     }
@@ -195,23 +179,15 @@ public class PlayerMovement : MonoBehaviour
     {
         freeze = true;
         inConsole = true;
-        SwitchToCamera(allCams[tconsole.consoleId + 1]);
+        cams.SwitchToCam(tconsole.cam);
         tconsole.activate();
     }
 
-    public void ExitConsole(TetrisConsole tconsole)
+    public void ExitConsole()
     {
-        tconsole.deactivate();
+        activeConsole.deactivate();
         freeze = false;
         inConsole = false;
-        SwitchToCamera(allCams[0]);
-    }
-
-    public void SwitchToCamera(CinemachineVirtualCamera targetCamera)
-    {
-        foreach (CinemachineVirtualCamera camera in allCams)
-        {
-            camera.enabled = camera == targetCamera;
-        }
+        cams.SwitchToPlayerCam();
     }
 }
