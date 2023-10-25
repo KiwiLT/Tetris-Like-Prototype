@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class TetrisConsole : MonoBehaviour
 {
     [SerializeField] public int consoleId;
-    [SerializeField] private GameObject room;
+    [SerializeField] private Room room;
     [SerializeField] private GameObject[] rooms;
     [SerializeField] private float moveDistance = 5f;
     [SerializeField] public CinemachineVirtualCamera cam;
@@ -16,6 +16,9 @@ public class TetrisConsole : MonoBehaviour
     private bool active;
     private int counter = 0;
     private bool exists;
+    private bool colliding;
+    private Vector3 startpos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,10 +62,30 @@ public class TetrisConsole : MonoBehaviour
                 room = rooms[(counter) % rooms.Length];
                 Debug.Log((counter + 1) % rooms.Length);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log(checkCollision());
+            }
+
         }
 
     }
 
-    public void activate() { active = true; }
-    public void deactivate() { active = false;  }
+    private bool checkCollision()
+    {
+        return this.room.checkCollision();
+    }
+
+    public void activate() {
+        active = true;
+        startpos = room.transform.position;
+    }
+    public bool deactivate() {
+        if (checkCollision()) {
+            Debug.Log("You can't place the rooms like this!");
+            return false;
+        }
+        active = false;
+        return true;
+    }
 }

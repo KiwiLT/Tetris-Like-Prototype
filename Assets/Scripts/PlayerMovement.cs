@@ -88,13 +88,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-
             if (inConsole)
             {
                 ExitConsole();
                 return;
             }
-
             foreach (TetrisConsole tconsole in allTetrisConsole)
             {
                 float dist = Vector3.Distance(transform.position, tconsole.transform.position);
@@ -173,9 +171,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void ExitConsole()
     {
-        activeConsole.deactivate();
-        freeze = false;
-        inConsole = false;
-        cams.SwitchToPlayerCam();
+        if (activeConsole.deactivate())
+        {
+            freeze = false;
+            inConsole = false;
+            cams.SwitchToPlayerCam();
+        }
     }
 }
