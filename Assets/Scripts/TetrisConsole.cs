@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
+using static UnityEditor.Progress;
 
 public class TetrisConsole : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class TetrisConsole : MonoBehaviour
     [SerializeField] public CinemachineVirtualCamera cam;
 
     private bool active;
-
+    private int counter = 0;
+    private bool exists;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +52,12 @@ public class TetrisConsole : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 room.transform.Rotate(0, 90, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                counter++;
+                room = rooms[(counter) % rooms.Length];
+                Debug.Log((counter + 1) % rooms.Length);
             }
         }
 

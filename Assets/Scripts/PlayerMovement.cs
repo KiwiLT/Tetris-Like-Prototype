@@ -88,36 +88,24 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            int entered = 0;
+
+            if (inConsole)
+            {
+                ExitConsole();
+                return;
+            }
+
             foreach (TetrisConsole tconsole in allTetrisConsole)
             {
                 float dist = Vector3.Distance(transform.position, tconsole.transform.position);
-                if (dist < 1.4f)
+                if (dist < 2f)
                 {
                     if (!inConsole)
                     {
                         EnterConsole(tconsole);
                         activeConsole = tconsole;
-                        entered = 1;
-                    }
-                    else
-                    {
-                        ExitConsole();
-                        entered = 2;
                     }
                 }
-            }
-            switch (entered)
-            {
-                case 1:
-                    Debug.Log("Enter Console");
-                    break;
-                case 2:
-                    Debug.Log("Exit Console");
-                    break;
-                default:
-                    Debug.Log("You are too far from the console.");
-                    break;
             }
 
         }
@@ -138,7 +126,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void jumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
-        activeGrapple = true;
         velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         Invoke(nameof(SetVelocity), 0.1f);
     }
@@ -179,6 +166,7 @@ public class PlayerMovement : MonoBehaviour
     {
         freeze = true;
         inConsole = true;
+        //tconsole.cam.transform.position = new Vector3(tconsole.cam.transform.position.x, tconsole.cam.transform.position.y, rb.transform.position.z );
         cams.SwitchToCam(tconsole.cam);
         tconsole.activate();
     }
