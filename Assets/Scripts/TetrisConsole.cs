@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class TetrisConsole : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class TetrisConsole : MonoBehaviour
     [SerializeField] private GameObject room;
     [SerializeField] private GameObject[] rooms;
     [SerializeField] private float moveDistance = 5f;
+    [SerializeField] public CinemachineVirtualCamera cam;
 
     private bool active;
 
@@ -42,11 +44,11 @@ public class TetrisConsole : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                room.transform.Rotate(0, 90, 0);
+                room.transform.Rotate(0, -90, 0);
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                room.transform.Rotate(0, -90, 0);
+                room.transform.Rotate(0, 90, 0);
             }
         }
 
