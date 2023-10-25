@@ -20,7 +20,7 @@ public class RoomPiece : MonoBehaviour
     public bool checkOverlap()
     {
         Collider[] hits = Physics.OverlapBox(transform.position, new Vector3(1, 1, 1), Quaternion.identity, layer);
-        Debug.Log(hits.Length);
+        //has to be 1 to ignore the roompiece the check starts in
         return hits.Length > 1;
 
     }

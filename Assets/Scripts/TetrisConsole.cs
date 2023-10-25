@@ -13,6 +13,7 @@ public class TetrisConsole : MonoBehaviour
 
     private bool active;
     private bool colliding;
+    private Vector3 startpos;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +54,7 @@ public class TetrisConsole : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log(room.checkCollision());
+                Debug.Log(checkCollision());
             }
 
         }
@@ -62,9 +63,19 @@ public class TetrisConsole : MonoBehaviour
 
     private bool checkCollision()
     {
-        return true;
+        return this.room.checkCollision();
     }
 
-    public void activate() { active = true; }
-    public void deactivate() { active = false;  }
+    public void activate() {
+        active = true;
+        startpos = room.transform.position;
+    }
+    public bool deactivate() {
+        if (checkCollision()) {
+            Debug.Log("You can't place the rooms like this!");
+            return false;
+        }
+        active = false;
+        return true;
+    }
 }
