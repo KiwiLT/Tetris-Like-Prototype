@@ -6,12 +6,13 @@ using Cinemachine;
 public class TetrisConsole : MonoBehaviour
 {
     [SerializeField] public int consoleId;
-    [SerializeField] private GameObject room;
+    [SerializeField] private Room room;
     [SerializeField] private GameObject[] rooms;
     [SerializeField] private float moveDistance = 5f;
     [SerializeField] public CinemachineVirtualCamera cam;
 
     private bool active;
+    private bool colliding;
 
     // Start is called before the first frame update
     void Start()
@@ -50,8 +51,18 @@ public class TetrisConsole : MonoBehaviour
             {
                 room.transform.Rotate(0, 90, 0);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log(room.checkCollision());
+            }
+
         }
 
+    }
+
+    private bool checkCollision()
+    {
+        return true;
     }
 
     public void activate() { active = true; }
