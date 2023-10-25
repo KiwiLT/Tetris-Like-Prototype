@@ -12,8 +12,6 @@ public class TetrisConsole : MonoBehaviour
     [SerializeField] public CinemachineVirtualCamera cam;
 
     private bool active;
-    private bool colliding;
-    private Vector3 startpos;
 
     // Start is called before the first frame update
     void Start()
@@ -46,17 +44,16 @@ public class TetrisConsole : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                room.transform.Rotate(0, -90, 0);
+                room.transform.Rotate(0, 90, 0);
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                room.transform.Rotate(0, 90, 0);
+                room.transform.Rotate(0, -90, 0);
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 Debug.Log(checkCollision());
             }
-
         }
 
     }
@@ -66,13 +63,12 @@ public class TetrisConsole : MonoBehaviour
         return this.room.checkCollision();
     }
 
-    public void activate() {
-        active = true;
-        startpos = room.transform.position;
-    }
+
+    public void activate() { active = true; }
     public bool deactivate() {
-        if (checkCollision()) {
-            Debug.Log("You can't place the rooms like this!");
+        if (checkCollision())
+        {
+            Debug.Log("You can't place rooms like that.");
             return false;
         }
         active = false;
