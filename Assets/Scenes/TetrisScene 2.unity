@@ -851,8 +851,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleId: 0
   room: {fileID: 1773337703}
-  rooms:
-  - {fileID: 1773337702}
+  allRooms:
+  - {fileID: 1773337703}
+  - {fileID: 1972860403}
   moveDistance: 10
   cam: {fileID: 704814723}
 --- !u!1 &324680377
@@ -1346,8 +1347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleId: 5
   room: {fileID: 0}
-  rooms:
-  - {fileID: 0}
+  allRooms: []
   moveDistance: 5
   cam: {fileID: 1682643283}
 --- !u!65 &625597721
@@ -3111,9 +3111,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
+      propertyPath: allRooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
       propertyPath: rooms.Array.data[0]
       value: 
       objectReference: {fileID: 2116079218}
+    - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
+      propertyPath: allRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 2116079220}
     - target: {fileID: 4907666476116927739, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
       propertyPath: m_Name
       value: Console5
@@ -3504,11 +3512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1501768017 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3549003416021809863, guid: 327c965daeffd43eb9183cb3a5b234f6, type: 3}
-  m_PrefabInstance: {fileID: 668262751815847939}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1501768018 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7532048033770189789, guid: 327c965daeffd43eb9183cb3a5b234f6, type: 3}
@@ -3519,7 +3522,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -3193593775277737803, guid: 327c965daeffd43eb9183cb3a5b234f6, type: 3}
   m_PrefabInstance: {fileID: 668262751815847939}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501768017}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 430f9dce7009c491391457f7b5249f41, type: 3}
@@ -4297,17 +4300,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 679763000}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1773337702 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6150113872706890862, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
-  m_PrefabInstance: {fileID: 4387730574933116575}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1773337703 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8443289775356773176, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
   m_PrefabInstance: {fileID: 4387730574933116575}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773337702}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 430f9dce7009c491391457f7b5249f41, type: 3}
@@ -4500,8 +4498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleId: 3
   room: {fileID: 1501768019}
-  rooms:
-  - {fileID: 1501768017}
+  allRooms: []
   moveDistance: 10
   cam: {fileID: 324680379}
 --- !u!65 &1868614871
@@ -5230,9 +5227,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
+      propertyPath: allRooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
       propertyPath: rooms.Array.data[0]
       value: 
       objectReference: {fileID: 1972860401}
+    - target: {fileID: 2952297537476211185, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
+      propertyPath: allRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 1972860403}
     - target: {fileID: 3325140098182319453, guid: d309db5b2c0bde548b68e9cc7bf8348a, type: 3}
       propertyPath: layer.m_Bits
       value: 0
@@ -5670,6 +5675,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5659942285719890254, guid: 6cc2378461d5b1b4da9cc1ccb76dba7c, type: 3}
+      propertyPath: allRooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659942285719890254, guid: 6cc2378461d5b1b4da9cc1ccb76dba7c, type: 3}
       propertyPath: rooms.Array.data[0]
       value: 
       objectReference: {fileID: 1235014293}
@@ -5677,6 +5686,10 @@ PrefabInstance:
       propertyPath: rooms.Array.data[1]
       value: 
       objectReference: {fileID: 1035685328}
+    - target: {fileID: 5659942285719890254, guid: 6cc2378461d5b1b4da9cc1ccb76dba7c, type: 3}
+      propertyPath: allRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 1235014295}
     - target: {fileID: 8207366061969094057, guid: 6cc2378461d5b1b4da9cc1ccb76dba7c, type: 3}
       propertyPath: m_Name
       value: Room2

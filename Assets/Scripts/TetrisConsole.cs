@@ -4,12 +4,13 @@ using UnityEngine;
 using Cinemachine;
 using Unity.VisualScripting;
 using static UnityEditor.Progress;
+using UnityEditor;
 
 public class TetrisConsole : MonoBehaviour
 {
     [SerializeField] public int consoleId;
     [SerializeField] private Room room;
-    [SerializeField] private Room[] rooms;
+    [SerializeField] private Room[] allRooms;
     [SerializeField] private float moveDistance = 5f;
     [SerializeField] public CinemachineVirtualCamera cam;
 
@@ -24,6 +25,7 @@ public class TetrisConsole : MonoBehaviour
     {
 
     }
+
 
     // Update is called once per frame
     void Update()
@@ -60,7 +62,7 @@ public class TetrisConsole : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 counter++;
-                room = rooms[(counter) % rooms.Length];
+                room = allRooms[(counter) % allRooms.Length];
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
