@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    private BoxCollider boxcol;
     // Start is called before the first frame update
     void Start()
     {

@@ -9,7 +9,7 @@ public class TetrisConsole : MonoBehaviour
 {
     [SerializeField] public int consoleId;
     [SerializeField] private Room room;
-    [SerializeField] private GameObject[] rooms;
+    [SerializeField] private Room[] rooms;
     [SerializeField] private float moveDistance = 5f;
     [SerializeField] public CinemachineVirtualCamera cam;
 
@@ -22,6 +22,7 @@ public class TetrisConsole : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -60,7 +61,6 @@ public class TetrisConsole : MonoBehaviour
             {
                 counter++;
                 room = rooms[(counter) % rooms.Length];
-                Debug.Log((counter + 1) % rooms.Length);
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
