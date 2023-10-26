@@ -75,7 +75,11 @@ public class TetrisConsole : MonoBehaviour
 
     private bool checkCollision()
     {
-        return this.room.checkCollision();
+        foreach(Room myRoom in allRooms)
+        {
+            if (myRoom.checkCollision()) { return true; }
+        }
+        return false;
     }
 
     public void activate() {
