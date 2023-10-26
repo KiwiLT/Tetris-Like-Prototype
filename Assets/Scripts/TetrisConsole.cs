@@ -5,6 +5,7 @@ using Cinemachine;
 using Unity.VisualScripting;
 using static UnityEditor.Progress;
 using UnityEditor;
+using TMPro;
 
 public class TetrisConsole : MonoBehaviour
 {
@@ -14,11 +15,16 @@ public class TetrisConsole : MonoBehaviour
     [SerializeField] private float moveDistance = 5f;
     [SerializeField] public CinemachineVirtualCamera cam;
 
+    [Header("Messages")]
+    [SerializeField] private float msgtime;
+    [SerializeField] private TextMeshProUGUI txtmsg;
+
     private bool active;
     private int counter = 0;
     private bool exists;
     private bool colliding;
     private Vector3 startpos;
+    private float timer;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,11 @@ public class TetrisConsole : MonoBehaviour
     {
         if (active)
         {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                txtmsg.enabled = false;
+            }
             if (Input.GetKeyDown(KeyCode.D))
             {
                 Vector3 translation = new Vector3(moveDistance, 0, 0);
@@ -89,6 +100,8 @@ public class TetrisConsole : MonoBehaviour
     public bool deactivate() {
         if (checkCollision()) {
             Debug.Log("You can't place the rooms like this!");
+            txtmsg.enabled = true;
+            timer = msgtime;
             return false;
         }
         active = false;
